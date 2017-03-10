@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Pizzaria</string>
+
+    <string-array name="formaPagamento">
+        <item>Dinheiro</item>
+        <item>Debito</item>
+        <item>Credito</item>
+    </string-array>
+
+</resources>
