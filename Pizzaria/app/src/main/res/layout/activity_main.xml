@@ -13,7 +13,7 @@
     <Spinner android:id="@+id/spFormaPagamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/formaPagamento"/>
+        android:entries="@array/formaPagto"/>
 
     <Spinner android:id="@+id/spSabor"
         android:layout_width="match_parent"
