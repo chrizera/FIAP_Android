@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Votacao</string>
+    <string-array name="nomesPrefeitos">
+        <item>Ze da feira</item>
+        <item>Maria Melhor</item>
+        <item>Brandao Filho</item>
+    </string-array>
+    <string-array name="nomesVereadores">
+        <item>Joana Nascimento</item>
+        <item>Lucio Dalla Pimenta</item>
+        <item>Mariano Maria</item>
+    </string-array>
+</resources>
