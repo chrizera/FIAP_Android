@@ -21,6 +21,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private List<Marca> marcas;
     private ArrayAdapter<Marca> adpMarca;
 
+    private Spinner spVeiculo;
+    private List<Veiculo> veiculos;
+    private ArrayAdapter<Veiculo> adpVeiculo;
+
+    private  Spinner spModelo;
+    private List<Modelo> modelos;
+    private  ArrayAdapter<Modelo> adpModelo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +41,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         adpMarca.add(new Marca("Escolha a marca", -1));
 
+        spVeiculo = (Spinner) findViewById(R.id.spVeiculo);
+        spVeiculo.setOnItemSelectedListener(this);
+        veiculos = new ArrayList<Veiculo>();
+        adpVeiculo = new ArrayAdapter<Veiculo>(this, android.R.layout.simple_spinner_item, veiculos);
+        spVeiculo.setAdapter(adpVeiculo);
+
+        adpVeiculo.add(new Veiculo("Escolha o veiculo", -1));
+
+        spModelo = (Spinner) findViewById(R.id.spModelo);
+        spModelo.setOnItemSelectedListener(this);
+        modelos = new ArrayList<Modelo>();
+        adpModelo = new ArrayAdapter<Modelo>(this, android.R.layout.simple_spinner_item, modelos);
+        spModelo.setAdapter(adpModelo);
+
+        adpModelo.add(new Modelo("Escolha o modelo", -1));
+
         carregarMarcas();
     }
 
@@ -44,10 +68,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         queue.add(request);
     }
 
+    private void carregarVeiculos(int idMarca) {
+        String url = "http://fipeapi.appspot.com/api/1/carros/veiculos/" + idMarca + ".json";
+        JsonArrayRequest request = new JsonArrayRequest(url, new RequestVeiculo(adpVeiculo), new RequestError());
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+    }
+
+    private void carregarModelos(int idMarca, int idVeiculo) {
+        String url = "http://fipeapi.appspot.com/api/1/carros/veiculo/" + idMarca + "/" + idVeiculo + "/.json";
+        JsonArrayRequest request = new JsonArrayRequest(url, new RequestModelo(adpModelo), new RequestError());
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+    }
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Marca marca = (Marca) parent.getItemAtPosition(position);
-        Toast.makeText(this, "Cod: " + marca.getId(), Toast.LENGTH_SHORT).show();
+        Object sel = parent.getItemAtPosition(position);
+
+        if (sel instanceof  Marca) {
+            adpVeiculo.clear();
+            Marca marca = (Marca) sel;
+            carregarVeiculos(marca.getId());
+        }
+        else if (sel instanceof  Veiculo) {
+            adpModelo.clear();
+            Veiculo veiculo = (Veiculo) sel;
+            carregarModelos(2, veiculo.getId());
+        }
     }
 
     @Override
